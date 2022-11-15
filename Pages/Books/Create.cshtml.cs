@@ -26,8 +26,7 @@ namespace Kincses_Bianca_Lb2.Pages.Books
                 x.ID,
                 FullName = x.LastName + " " + x.FirstName
             });
-            ViewData["PublisherID"] = new SelectList(_context.Set<Publisher>(), "ID",
-            "PublisherName");
+            ViewData["PublisherID"] = new SelectList(_context.Set<Publisher>(), "ID","PublisherName");
             ViewData["AuthorID"] = new SelectList(_context.Set<Author>(), "ID", "FullName");
             var book = new Book();
             book.BookCategories = new List<BookCategory>();
@@ -41,7 +40,7 @@ namespace Kincses_Bianca_Lb2.Pages.Books
         public Book Book { get; set; }
         public async Task<IActionResult> OnPostAsync(string[] selectedCategories)
         {
-            var newBook = new Book();
+            var newBook = Book;
             if (selectedCategories != null)
             {
                 newBook.BookCategories = new List<BookCategory>();
@@ -54,16 +53,12 @@ namespace Kincses_Bianca_Lb2.Pages.Books
                     newBook.BookCategories.Add(catToAdd);
                 }
             }
-            if (await TryUpdateModelAsync<Book>(
-            newBook,
-            "Book",
-            i => i.Title, i => i.Author,
-            i => i.Price, i => i.PublishingDate, i => i.PublisherID))
-            {
+            //if (await TryUpdateModelAsync<Book>(newBook,"Book",i => i.Title, i => i.AuthorID,i => i.Price, i => i.PublishingDate, i => i.PublisherID))
+            //{
                 _context.Book.Add(newBook);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
-            }
+           // }
             PopulateAssignedCategoryData(_context, newBook);
             return Page();
         }
