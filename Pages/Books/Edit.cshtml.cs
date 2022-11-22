@@ -8,10 +8,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Kincses_Bianca_Lb2.Data;
 using Kincses_Bianca_Lb2.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 //using Kincses_Bianca_Lb2.Models;
 
 namespace Kincses_Bianca_Lb2.Pages.Books
 {
+    [Authorize(Roles = "Admin")]
+
     public class EditModel : BookCategoriesPageModel
     {
         private readonly Kincses_Bianca_Lb2.Data.Kincses_Bianca_Lb2Context _context;
@@ -22,7 +26,6 @@ namespace Kincses_Bianca_Lb2.Pages.Books
         }
 
         [BindProperty]
-        public Author Author { get; set; } = default!;
         public Book Book { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -76,12 +79,12 @@ namespace Kincses_Bianca_Lb2.Pages.Books
             {
                 return NotFound();
             }
-           // if (await TryUpdateModelAsync<Book>(bookToUpdate,"Book",i => i.Title, i => i.AuthorID,i => i.Price, i => i.PublishingDate, i => i.PublisherID))
-            //{
+           if (await TryUpdateModelAsync<Book>(bookToUpdate,"Book",i => i.Title, i => i.AuthorID,i => i.Price, i => i.PublishingDate, i => i.PublisherID))
+            { 
                 UpdateBookCategories(_context, selectedCategories, bookToUpdate);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
-           // }
+           }
             //Apelam UpdateBookCategories pentru a aplica informatiile din checkboxuri la entitatea Books care
             //este editata
             UpdateBookCategories(_context, selectedCategories, bookToUpdate);

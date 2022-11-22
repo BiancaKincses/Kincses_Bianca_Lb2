@@ -12,8 +12,12 @@ namespace Kincses_Bianca_Lb2.Models
 
         [Display(Name = "Book Title")]
         public string Title  { get; set; }
+
         //public string Author { get; set; }
         [Column(TypeName = "decimal(6, 2)")]
+        [Range(0.01, 500)]
+
+
         public decimal Price { get; set; }
         
         
@@ -25,6 +29,7 @@ namespace Kincses_Bianca_Lb2.Models
         public int? PublisherID { get; set; }
         public Publisher? Publisher { get; set; }
         public ICollection<BookCategory>? BookCategories { get; set; }
+        public Borrowing? Borrowing { get; set; }
 
 
 

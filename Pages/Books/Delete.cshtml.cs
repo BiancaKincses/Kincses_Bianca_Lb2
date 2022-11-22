@@ -7,9 +7,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Kincses_Bianca_Lb2.Data;
 using Kincses_Bianca_Lb2.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Kincses_Bianca_Lb2.Pages.Books
 {
+    [Authorize(Roles = "Admin")]
+
     public class DeleteModel : PageModel
     {
         private readonly Kincses_Bianca_Lb2.Data.Kincses_Bianca_Lb2Context _context;
